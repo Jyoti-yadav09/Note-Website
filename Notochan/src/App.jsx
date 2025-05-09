@@ -1,12 +1,16 @@
-import React from 'react';
-import Header from './components/Header';
-import "./App.css";
-const App = () => {
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+
+function App() {
   return (
-    <div>
-      <Header/>
-    </div>
-  )
+    <Router>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+      </Switch>
+    </Router>
+  );
 }
 
-export default App
+export default App;
