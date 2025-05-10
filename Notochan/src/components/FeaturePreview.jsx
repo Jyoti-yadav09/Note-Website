@@ -1,22 +1,39 @@
-// src/components/FeaturePreview.js
 import React from "react";
+import { Sparkles, Search, Share2 } from "lucide-react"; 
 
 const FeaturePreview = () => {
   return (
-    <section className="p-8 bg-white text-center">
-      <h2 className="text-3xl font-semibold mb-6">Features of NotoChan</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="p-4 border rounded-lg shadow-lg">
-          <h3 className="text-xl font-bold">Organize Your Notes</h3>
-          <p>Color-code and label your notes for quick access.</p>
+    <section className="bg-white py-16 px-6 md:px-24 text-center">
+      <h2 className="text-4xl font-bold text-[#4B0082] mb-12">
+        ✨ Features of <span className="text-[#FF69B4]">NotoChan</span>
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* Feature Card 1 */}
+        <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
+          <Sparkles className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Organize Your Notes</h3>
+          <p className="text-[#555]">
+            Color-code and label your notes with love for quick and easy access.
+          </p>
         </div>
-        <div className="p-4 border rounded-lg shadow-lg">
-          <h3 className="text-xl font-bold">Search and Filter</h3>
-          <p>Find your notes in seconds using powerful search filters.</p>
+
+        {/* Feature Card 2 */}
+        <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
+          <Search className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Search & Filter</h3>
+          <p className="text-[#555]">
+            Find your notes instantly using fast, smart filters.
+          </p>
         </div>
-        <div className="p-4 border rounded-lg shadow-lg">
-          <h3 className="text-xl font-bold">Share Notes</h3>
-          <p>Share your notes easily with friends and colleagues.</p>
+
+        {/* Feature Card 3 */}
+        <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
+          <Share2 className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Share Notes</h3>
+          <p className="text-[#555]">
+            Share cute notes with your friends, study buddies, or just keep them private 🌸
+          </p>
         </div>
       </div>
     </section>
