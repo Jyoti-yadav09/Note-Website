@@ -9,7 +9,7 @@ const FeaturePreview = () => {
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {/* Feature Card 1 */}
+        
         <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
           <Sparkles className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Organize Your Notes</h3>
@@ -18,7 +18,7 @@ const FeaturePreview = () => {
           </p>
         </div>
 
-        {/* Feature Card 2 */}
+        
         <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
           <Search className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Search & Filter</h3>
@@ -27,7 +27,7 @@ const FeaturePreview = () => {
           </p>
         </div>
 
-        {/* Feature Card 3 */}
+        
         <div className="bg-white p-6 rounded-2xl shadow-xl hover:shadow-pink-200 transition duration-300">
           <Share2 className="text-[#FF69B4] w-10 h-10 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-[#4B0082] mb-2">Share Notes</h3>
