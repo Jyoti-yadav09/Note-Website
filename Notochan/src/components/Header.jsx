@@ -19,9 +19,9 @@ const Header = () => {
         </span>
       </div>
       <nav className="hidden md:flex space-x-14 text-[#4B0082] font-medium">
-        <a href="#" className="hover:underline">Home</a>
-        <a href="#" className="hover:underline">Features</a>
-        <a href="#" className="hover:underline">About</a>
+        <a href="#home" className="hover:underline">Home</a>
+        <a href="#features" className="hover:underline">Features</a>
+        <a href="#AboutSection" className="hover:underline">About</a>
       </nav>
       
       <button className="px-5 py-2 bg-[#4B0082] text-white rounded-md hover:bg-[#5f20b5] transition">
