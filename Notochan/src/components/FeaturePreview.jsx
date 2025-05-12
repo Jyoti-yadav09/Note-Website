@@ -3,7 +3,7 @@ import { Sparkles, Search, Share2 } from "lucide-react";
 
 const FeaturePreview = () => {
   return (
-    <section className="bg-white py-16 px-6 md:px-24 text-center">
+    <section className="bg-white py-16 px-6 md:px-24 text-center" id="features">
       <h2 className="text-4xl font-bold text-[#4B0082] mb-12">
         ✨ Features of <span className="text-[#FF69B4]">NotoChan</span>
       </h2>
