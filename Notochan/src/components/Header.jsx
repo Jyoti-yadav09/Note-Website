@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate=useNavigate();
   return (
     <header
       className="flex justify-between items-center p-4 px-8 bg-gray-50 w-full"
@@ -24,7 +26,9 @@ const Header = () => {
         <a href="#AboutSection" className="hover:underline">About</a>
       </nav>
       
-      <button className="px-5 py-2 bg-[#4B0082] text-white rounded-md hover:bg-[#5f20b5] transition">
+      <button onClick={()=>navigate("/AuthPage")}
+         
+      className="px-5 py-2 bg-[#4B0082] text-white rounded-md hover:bg-[#5f20b5] transition">
         Login 
       </button>
     </header>
