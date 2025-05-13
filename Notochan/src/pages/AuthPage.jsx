@@ -6,6 +6,20 @@ import Footer from '../components/Footer';
 const AuthPage = () => {
     const[isLogin, setIsLogin]=useState(true);
    const navigate=useNavigate();
+    const handleSubmit = (e) => {
+    e.preventDefault();
+
+   
+    if (isLogin) {
+      
+      localStorage.setItem("userToken", "fake_token_123"); 
+      navigate("/dashboard"); 
+    } else {
+     
+      alert("Registered successfully!");
+      setIsLogin(true); 
+    }
+  };
   return (
     
  <div>
@@ -28,7 +42,7 @@ const AuthPage = () => {
             {isLogin ? "Welcome Back!": "Join NotoChan 📝"}
          </h2>
 
-         <form className='space-y-4'>
+         <form className='space-y-4' onSubmit={handleSubmit}>
             {!isLogin && (<input type="text" placeholder="Full Name"
             className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300'
             />)}
