@@ -55,7 +55,7 @@ const AuthPage = () => {
       </div>
     </div>
  
- 
+    <Footer/>
     </div>
   );
 };
