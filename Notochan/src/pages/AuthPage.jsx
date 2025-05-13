@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 const AuthPage = () => {
     const[isLogin, setIsLogin]=useState(true);
-   /* const navigate=useNavigate();*/
+   const navigate=useNavigate();
   return (
     
  <div>
@@ -51,7 +51,12 @@ const AuthPage = () => {
                 {isLogin?"Login" : "Register"}
             </button>
          </form>
-        
+        <button
+      onClick={() => navigate('/')}
+      className='mt-4 w-full bg-gray-200 text-[#4B0082] font-medium py-2 rounded-lg hover:bg-gray-300 transition'
+     >
+     ← Back to Home
+    </button>
       </div>
     </div>
  
