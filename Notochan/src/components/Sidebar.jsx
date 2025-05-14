@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-
+import {FaStickyNote, FaPlus, FaUser, FaClipboardList, FaArchive, FaTrashAlt, FaClock} from "react-icons/fa";
 
 const Sidebar = () => {
   return (
