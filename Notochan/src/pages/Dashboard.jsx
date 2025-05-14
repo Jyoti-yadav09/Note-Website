@@ -7,7 +7,7 @@ const Dashboard = () => {
  
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Toggle sidebar function
+ 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
