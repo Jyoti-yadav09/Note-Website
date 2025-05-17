@@ -21,7 +21,7 @@ const Profile = () => {
       </div>
     );
   }
-
+     {/*User details */}
   return (
     <div className="p-6 text-gray-700 max-w-md mx-auto">
       <h2 className="text-3xl font-bold mb-6 text-[#4B0082]">👤 Profile</h2>
