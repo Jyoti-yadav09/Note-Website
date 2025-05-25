@@ -4,6 +4,8 @@ import AuthPage from "./pages/AuthPage";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import "./App.css";
+import Create from "./pages/Create";
+import MyNotes from "./pages/MyNote";
 function App() {
   return (
     <Router>
@@ -12,6 +14,8 @@ function App() {
         <Route path="/AuthPage" element={<AuthPage/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
        <Route path="/profile" element={<Profile />} />
+       <Route path="/create" element={<Create/>}/>
+       <Route path="/my-notes" element={<MyNotes/>}/>
       </Routes>
     </Router>
   );
