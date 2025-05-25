@@ -14,8 +14,8 @@ function App() {
         <Route path="/AuthPage" element={<AuthPage/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
        <Route path="/profile" element={<Profile />} />
-       <Route path="/create" element={<Create/>}/>
-       <Route path="/my-notes" element={<MyNotes/>}/>
+       {/*<Route path="/create" element={<Create/>}/>*/}
+      {/*<Route path="/my-notes" element={<MyNotes/>}/>*/}
       </Routes>
     </Router>
   );
