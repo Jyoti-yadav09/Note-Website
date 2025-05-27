@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 
-const MyNotes = () => {
+const MyNote = () => {
   const [notes, setNotes] = useState([]);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const MyNotes = () => {
   );
 };
 
-export default MyNotes;
+export default MyNote;
