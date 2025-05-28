@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import "./App.css";
 import Create from "./pages/Create";
 import MyNotes from "./pages/MyNote";
+import Remainder from "./pages/Remainder";
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
        <Route path="/profile" element={<Profile />} />
        <Route path="/create" element={<Create/>}/>
       <Route path="/my-notes" element={<MyNotes/>}/>
+      <Route path="/remainder" element={<Remainder/>}/>
       </Routes>
     </Router>
   );
