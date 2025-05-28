@@ -1,55 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '../components/Sidebar';
-import { FaBell, FaTrash } from 'react-icons/fa';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import { FaEllipsisV, FaBell } from "react-icons/fa";
 
 const MyNotes = () => {
   const [notes, setNotes] = useState([]);
-  const [selectedNote, setSelectedNote] = useState(null);
-  const [showNoteModal, setShowNoteModal] = useState(false);
   const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [reminderTime, setReminderTime] = useState("");
   const [showReminderModal, setShowReminderModal] = useState(false);
-  const [menuOpenId, setMenuOpenId] = useState(null); 
+  const [menuOpenId, setMenuOpenId] = useState(null);
 
   useEffect(() => {
     const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
     setNotes(storedNotes);
   }, []);
 
-  const openNoteModal = (note) => {
-    setSelectedNote(note);
-    setShowNoteModal(true);
+  const deleteNote = (id) => {
+    const filteredNotes = notes.filter((note) => note.id !== id);
+    const binNotes = JSON.parse(localStorage.getItem("binNotes")) || [];
+    const deletedNote = notes.find((note) => note.id === id);
+    localStorage.setItem("notes", JSON.stringify(filteredNotes));
+    localStorage.setItem("binNotes", JSON.stringify([...binNotes, deletedNote]));
+    setNotes(filteredNotes);
+    setMenuOpenId(null);
   };
 
-  const openReminderModal = (noteId) => {
-    setSelectedNoteId(noteId);
+  const archiveNote = (id) => {
+    const filteredNotes = notes.filter((note) => note.id !== id);
+    const archivedNotes = JSON.parse(localStorage.getItem("archivedNotes")) || [];
+    const archivedNote = notes.find((note) => note.id === id);
+    localStorage.setItem("notes", JSON.stringify(filteredNotes));
+    localStorage.setItem("archivedNotes", JSON.stringify([...archivedNotes, archivedNote]));
+    setNotes(filteredNotes);
+    setMenuOpenId(null);
+  };
+
+  const openReminderModal = (id) => {
+    setSelectedNoteId(id);
     setShowReminderModal(true);
-    setMenuOpenId(null); 
+    setMenuOpenId(null);
   };
 
   const saveReminder = () => {
-    const storedReminders = JSON.parse(localStorage.getItem("reminders")) || [];
-    const newReminder = {
-      noteId: selectedNoteId,
-      time: reminderTime,
-    };
-    const updated = [...storedReminders, newReminder];
-    localStorage.setItem("reminders", JSON.stringify(updated));
+    const reminders = JSON.parse(localStorage.getItem("reminders")) || [];
+    const newReminder = { noteId: selectedNoteId, time: reminderTime };
+    localStorage.setItem("reminders", JSON.stringify([...reminders, newReminder]));
     setShowReminderModal(false);
     setReminderTime("");
     setSelectedNoteId(null);
-  };
-
-  const deleteNote = (noteId) => {
-    const updatedNotes = notes.filter(note => note.id !== noteId);
-    setNotes(updatedNotes);
-    localStorage.setItem("notes", JSON.stringify(updatedNotes));
-    setMenuOpenId(null); 
-  };
-
-  const toggleMenu = (noteId) => {
-    setMenuOpenId(menuOpenId === noteId ? null : noteId);
   };
 
   return (
@@ -62,66 +59,44 @@ const MyNotes = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {notes.map((note) => (
-              <div
-                key={note.id}
-                className="bg-white p-4 rounded shadow relative h-48 overflow-hidden cursor-pointer"
-                onClick={() => openNoteModal(note)}
-              >
+              <div key={note.id} className="bg-white p-4 rounded shadow relative h-48 overflow-hidden">
                 <h3 className="font-bold text-lg text-[#4B0082]">{note.title}</h3>
-                <p className="text-sm text-gray-700 mt-2 line-clamp-4">{note.content}</p>
-
-                {/* Three Dots Menu */}
-                <div
-                  className="absolute top-2 right-2"
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    toggleMenu(note.id);
-                  }}
+                <p className="text-sm text-gray-700 mt-2">{note.content}</p>
+                <button
+                  className="absolute top-2 right-2 text-gray-600 hover:text-indigo-600"
+                  onClick={() => setMenuOpenId(menuOpenId === note.id ? null : note.id)}
                 >
-                  <BsThreeDotsVertical className="text-gray-600 hover:text-indigo-600 cursor-pointer" />
-                  {menuOpenId === note.id && (
-                    <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-32 z-50">
-                      <button
-                        className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 text-left"
-                        onClick={() => openReminderModal(note.id)}
-                      >
-                        <FaBell className="mr-2" /> Set Reminder
-                      </button>
-                      <button
-                        className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 text-left text-red-500"
-                        onClick={() => deleteNote(note.id)}
-                      >
-                        <FaTrash className="mr-2" /> Delete
-                      </button>
-                    </div>
-                  )}
-                </div>
+                  <FaEllipsisV />
+                </button>
+                {menuOpenId === note.id && (
+                  <div className="absolute top-8 right-2 bg-white border rounded shadow-md z-10 w-36">
+                    <button
+                      onClick={() => openReminderModal(note.id)}
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-indigo-100 w-full text-left"
+                    >
+                      <FaBell /> Reminder
+                    </button>
+                    <button
+                      onClick={() => archiveNote(note.id)}
+                      className="px-4 py-2 hover:bg-indigo-100 w-full text-left"
+                    >
+                      Archive
+                    </button>
+                    <button
+                      onClick={() => deleteNote(note.id)}
+                      className="px-4 py-2 hover:bg-red-100 w-full text-left text-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
         )}
 
-        {/* Note Modal */}
-        {showNoteModal && selectedNote && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-md max-w-lg w-full">
-              <h3 className="text-xl font-bold text-[#4B0082] mb-2">{selectedNote.title}</h3>
-              <p className="text-gray-700">{selectedNote.content}</p>
-              <div className="mt-4 text-right">
-                <button
-                  className="bg-[#4B0082] text-white px-4 py-2 rounded"
-                  onClick={() => setShowNoteModal(false)}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Reminder Modal */}
         {showReminderModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <div className="bg-white p-6 rounded shadow-md w-80">
               <h3 className="text-lg font-semibold mb-4 text-[#4B0082]">Set Reminder</h3>
               <input
@@ -131,10 +106,16 @@ const MyNotes = () => {
                 className="border border-gray-300 rounded px-3 py-2 mb-4 w-full"
               />
               <div className="flex justify-end space-x-4">
-                <button onClick={() => setShowReminderModal(false)} className="px-4 py-2 bg-gray-300 rounded">
+                <button
+                  onClick={() => setShowReminderModal(false)}
+                  className="px-4 py-2 bg-gray-300 rounded"
+                >
                   Cancel
                 </button>
-                <button onClick={saveReminder} className="px-4 py-2 bg-[#4B0082] text-white rounded">
+                <button
+                  onClick={saveReminder}
+                  className="px-4 py-2 bg-[#4B0082] text-white rounded"
+                >
                   Save
                 </button>
               </div>
