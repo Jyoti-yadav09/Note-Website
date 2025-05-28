@@ -12,7 +12,7 @@ const Remainder = () => {
     setNotes(storedNotes);
   }, []);
 
-  // Find note details by noteId
+  
   const getNoteById = (id) => notes.find(note => note.id === id);
 
   return (
@@ -26,7 +26,7 @@ const Remainder = () => {
           <div className="space-y-4">
             {reminders.map((reminder, index) => {
               const note = getNoteById(reminder.noteId);
-              if (!note) return null; // Skip if note not found
+              if (!note) return null; 
               return (
                 <div key={index} className="bg-white p-4 rounded shadow-md">
                   <h3 className="font-semibold text-[#4B0082]">{note.title}</h3>
