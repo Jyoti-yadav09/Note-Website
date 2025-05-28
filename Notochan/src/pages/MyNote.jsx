@@ -1,67 +1,61 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import { FaBell } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import Sidebar from '../components/Sidebar';
+import { FaBell, FaTrash } from 'react-icons/fa';
+import { BsThreeDotsVertical } from 'react-icons/bs';
 
 const MyNotes = () => {
   const [notes, setNotes] = useState([]);
   const [selectedNote, setSelectedNote] = useState(null);
-  const [showReminderModal, setShowReminderModal] = useState(false);
-  const [selectedReminderNoteId, setSelectedReminderNoteId] = useState(null);
+  const [showNoteModal, setShowNoteModal] = useState(false);
+  const [selectedNoteId, setSelectedNoteId] = useState(null);
   const [reminderTime, setReminderTime] = useState("");
+  const [showReminderModal, setShowReminderModal] = useState(false);
+  const [menuOpenId, setMenuOpenId] = useState(null); 
 
   useEffect(() => {
     const storedNotes = JSON.parse(localStorage.getItem("notes")) || [];
     setNotes(storedNotes);
   }, []);
 
-  
   const openNoteModal = (note) => {
     setSelectedNote(note);
+    setShowNoteModal(true);
   };
 
-  const closeNoteModal = () => {
-    setSelectedNote(null);
-  };
-
-
-  const openReminderModal = (e, noteId) => {
-    e.stopPropagation(); 
-    setSelectedReminderNoteId(noteId);
+  const openReminderModal = (noteId) => {
+    setSelectedNoteId(noteId);
     setShowReminderModal(true);
-
-    
-    const reminders = JSON.parse(localStorage.getItem("reminders")) || [];
-    const existingReminder = reminders.find(r => r.noteId === noteId);
-    if (existingReminder) {
-      setReminderTime(existingReminder.time);
-    } else {
-      setReminderTime("");
-    }
+    setMenuOpenId(null); 
   };
 
-  const closeReminderModal = () => {
-    setShowReminderModal(false);
-    setSelectedReminderNoteId(null);
-    setReminderTime("");
-  };
-
-  
   const saveReminder = () => {
-    const reminders = JSON.parse(localStorage.getItem("reminders")) || [];
-    
-    const filteredReminders = reminders.filter(r => r.noteId !== selectedReminderNoteId);
-    
-    if (reminderTime) {
-      filteredReminders.push({ noteId: selectedReminderNoteId, time: reminderTime });
-    }
-    localStorage.setItem("reminders", JSON.stringify(filteredReminders));
-    closeReminderModal();
+    const storedReminders = JSON.parse(localStorage.getItem("reminders")) || [];
+    const newReminder = {
+      noteId: selectedNoteId,
+      time: reminderTime,
+    };
+    const updated = [...storedReminders, newReminder];
+    localStorage.setItem("reminders", JSON.stringify(updated));
+    setShowReminderModal(false);
+    setReminderTime("");
+    setSelectedNoteId(null);
+  };
+
+  const deleteNote = (noteId) => {
+    const updatedNotes = notes.filter(note => note.id !== noteId);
+    setNotes(updatedNotes);
+    localStorage.setItem("notes", JSON.stringify(updatedNotes));
+    setMenuOpenId(null); 
+  };
+
+  const toggleMenu = (noteId) => {
+    setMenuOpenId(menuOpenId === noteId ? null : noteId);
   };
 
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 p-6 relative">
+      <div className="flex-1 p-6">
         <h2 className="text-2xl font-bold text-[#4B0082] mb-4">📝 My Notes</h2>
         {notes.length === 0 ? (
           <p className="text-gray-500">You haven't created any notes yet.</p>
@@ -70,41 +64,57 @@ const MyNotes = () => {
             {notes.map((note) => (
               <div
                 key={note.id}
-                className="bg-white p-4 rounded shadow relative min-h-[150px] cursor-pointer"
+                className="bg-white p-4 rounded shadow relative h-48 overflow-hidden cursor-pointer"
                 onClick={() => openNoteModal(note)}
               >
                 <h3 className="font-bold text-lg text-[#4B0082]">{note.title}</h3>
-                <p className="text-sm text-gray-700 mt-2">
-                  {note.content.length > 100
-                    ? note.content.slice(0, 100) + "..."
-                    : note.content}
-                </p>
-                <button
-                  className="absolute top-2 right-2 text-gray-500 hover:text-indigo-600"
-                  onClick={(e) => openReminderModal(e, note.id)}
-                  title="Set Reminder"
+                <p className="text-sm text-gray-700 mt-2 line-clamp-4">{note.content}</p>
+
+                {/* Three Dots Menu */}
+                <div
+                  className="absolute top-2 right-2"
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    toggleMenu(note.id);
+                  }}
                 >
-                  <FaBell />
-                </button>
+                  <BsThreeDotsVertical className="text-gray-600 hover:text-indigo-600 cursor-pointer" />
+                  {menuOpenId === note.id && (
+                    <div className="absolute right-0 mt-2 bg-white shadow-lg rounded w-32 z-50">
+                      <button
+                        className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 text-left"
+                        onClick={() => openReminderModal(note.id)}
+                      >
+                        <FaBell className="mr-2" /> Set Reminder
+                      </button>
+                      <button
+                        className="flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 text-left text-red-500"
+                        onClick={() => deleteNote(note.id)}
+                      >
+                        <FaTrash className="mr-2" /> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* Note  Modal */}
-        {selectedNote && (
+        {/* Note Modal */}
+        {showNoteModal && selectedNote && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-md max-w-lg w-full relative">
-              <button
-                onClick={closeNoteModal}
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-xl font-bold"
-              >
-                ×
-              </button>
-              <h3 className="text-2xl font-bold mb-4 text-[#4B0082]">
-                {selectedNote.title}
-              </h3>
-              <p className="text-gray-800 whitespace-pre-wrap">{selectedNote.content}</p>
+            <div className="bg-white p-6 rounded shadow-md max-w-lg w-full">
+              <h3 className="text-xl font-bold text-[#4B0082] mb-2">{selectedNote.title}</h3>
+              <p className="text-gray-700">{selectedNote.content}</p>
+              <div className="mt-4 text-right">
+                <button
+                  className="bg-[#4B0082] text-white px-4 py-2 rounded"
+                  onClick={() => setShowNoteModal(false)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -112,13 +122,7 @@ const MyNotes = () => {
         {/* Reminder Modal */}
         {showReminderModal && (
           <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-md max-w-md w-full relative">
-              <button
-                onClick={closeReminderModal}
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-xl font-bold"
-              >
-                ×
-              </button>
+            <div className="bg-white p-6 rounded shadow-md w-80">
               <h3 className="text-lg font-semibold mb-4 text-[#4B0082]">Set Reminder</h3>
               <input
                 type="datetime-local"
@@ -127,16 +131,10 @@ const MyNotes = () => {
                 className="border border-gray-300 rounded px-3 py-2 mb-4 w-full"
               />
               <div className="flex justify-end space-x-4">
-                <button
-                  onClick={closeReminderModal}
-                  className="px-4 py-2 bg-gray-300 rounded"
-                >
+                <button onClick={() => setShowReminderModal(false)} className="px-4 py-2 bg-gray-300 rounded">
                   Cancel
                 </button>
-                <button
-                  onClick={saveReminder}
-                  className="px-4 py-2 bg-[#4B0082] text-white rounded"
-                >
+                <button onClick={saveReminder} className="px-4 py-2 bg-[#4B0082] text-white rounded">
                   Save
                 </button>
               </div>
