@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import "./App.css";
 import Create from "./pages/Create";
 import MyNotes from "./pages/MyNote";
+import Bin from "./pages/Bin";
 import Remainder from "./pages/Remainder";
 
 import Archive from "./pages/Archive";
@@ -20,7 +21,7 @@ function App() {
        <Route path="/create" element={<Create/>}/>
       <Route path="/my-notes" element={<MyNotes/>}/>
       <Route path="/remainder" element={<Remainder/>}/>
-  
+      <Route path="/bin" element={<Bin/>}/>
       <Route path="/archive" element={<Archive/>}/>
       </Routes>
     </Router>
